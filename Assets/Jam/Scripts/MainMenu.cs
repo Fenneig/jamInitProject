@@ -1,4 +1,5 @@
 ﻿using Jam.Scripts.SceneManagement;
+using Jam.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -12,6 +13,7 @@ namespace Jam.Scripts
         [SerializeField] private Button _credits;
 
         [Inject] private SceneLoader _sceneLoader;
+        [Inject] private CoroutineHelper _coroutineHelper;
         
         private void Awake()
         {
@@ -22,7 +24,7 @@ namespace Jam.Scripts
         
         private void StartGame()
         {
-            StartCoroutine(_sceneLoader.LoadScene(SceneEnum.Gameplay));
+            _coroutineHelper.RunCoroutine(_sceneLoader.LoadScene(SceneEnum.Gameplay));
         }
         
         private void OpenSettings()
