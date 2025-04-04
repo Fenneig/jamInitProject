@@ -1,4 +1,4 @@
-namespace Jam.Scripts.Audio.Bgm
+namespace Jam.Scripts.Audio.SO
 {
     public enum BgmAudioType
     {

@@ -1,4 +1,4 @@
-namespace Jam.Scripts.Audio
+namespace Jam.Scripts.Audio.SO
 {
     public enum SoundType
     {

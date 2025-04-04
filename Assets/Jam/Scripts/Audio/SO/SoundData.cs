@@ -7,10 +7,7 @@ namespace Jam.Scripts.Audio.SO
     [Serializable]
     public class SoundData
     {
-        [SerializeField] private SoundType _type;
-        [SerializeField] private List<SoundElement> _clips;
-
-        public SoundType Type => _type;
-        public List<SoundElement> Clips => _clips;
+        [field:SerializeField] public SoundType Type { get; private set; } = SoundType.None;
+        [field:SerializeField] public List<SoundElement> Clips { get; private set; }
     }
 }

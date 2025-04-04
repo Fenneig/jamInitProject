@@ -4,18 +4,15 @@ using UnityEngine;
 
 namespace Jam.Scripts.Audio.SO
 {
-    [CreateAssetMenu(menuName = "Gameplay/Audio/SoundsFactorySO", fileName = "SoundsFactorySO")]
-    public class SoundsFactorySo : ScriptableObject
+    [CreateAssetMenu(menuName = "Gameplay/Audio/SoundsRepositorySO", fileName = "SoundsRepositorySO")]
+    public class SoundsRepositorySo : ScriptableObject
     {
-        [SerializeField] private float _intervalBetweenAmbientSfx;
-        [SerializeField] private List<SoundData> _clips;
-        
-        public float IntervalBetweenAmbientSfx => _intervalBetweenAmbientSfx;
+        [SerializeField] private List<SoundData> _soundDataList;
 
-        public SoundElement GetRandomClipByType(SoundType type)
+        public SoundElement GetRandomSoundElementByType(SoundType type)
         {
             SoundElement clipToReturn = null;
-            var audioList = _clips.FirstOrDefault(el => el.Type == type);
+            var audioList = _soundDataList.FirstOrDefault(el => el.Type == type);
             if (audioList != null)
             {
                 clipToReturn = audioList.Clips[Random.Range(0, audioList.Clips.Count)];
@@ -29,10 +26,10 @@ namespace Jam.Scripts.Audio.SO
             return clipToReturn;
         }
 
-        public SoundElement GetClipByTypeAndIndex(SoundType type, int index)
+        public SoundElement GetSoundElementByTypeAndIndex(SoundType type, int index)
         {
             SoundElement clipToReturn = null;
-            var audioList = _clips.FirstOrDefault(el => el.Type == type);
+            var audioList = _soundDataList.FirstOrDefault(el => el.Type == type);
 
             if (audioList != null)
             {
