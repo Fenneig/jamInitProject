@@ -19,7 +19,7 @@ namespace Jam.Scripts.Audio
 
         public float BgmVolume
         {
-            get => PlayerPrefs.GetFloat(BGM_PREFS_NAME);
+            get => PlayerPrefs.GetFloat(BGM_PREFS_NAME, BGM_DEFAULT_VOLUME);
             set
             {
                 PlayerPrefs.SetFloat(BGM_PREFS_NAME, value * MasterVolume);
@@ -30,7 +30,7 @@ namespace Jam.Scripts.Audio
         
         public float SfxVolume
         {
-            get => PlayerPrefs.GetFloat(SFX_PREFS_NAME);
+            get => PlayerPrefs.GetFloat(SFX_PREFS_NAME, SFX_DEFAULT_VOLUME);
             set
             {
                 PlayerPrefs.SetFloat(SFX_PREFS_NAME, value * MasterVolume);
@@ -41,20 +41,13 @@ namespace Jam.Scripts.Audio
         
         public float MasterVolume
         {
-            get => PlayerPrefs.GetFloat(MASTER_PREFS_NAME);
+            get => PlayerPrefs.GetFloat(MASTER_PREFS_NAME, MASTER_DEFAULT_VOLUME);
             set
             {
                 PlayerPrefs.SetFloat(MASTER_PREFS_NAME, value);
                 PlayerPrefs.Save();
                 OnMasterVolumeChanged?.Invoke();
             }
-        }
-        
-        private void Awake()
-        {
-            BgmVolume = BGM_DEFAULT_VOLUME;
-            SfxVolume = SFX_DEFAULT_VOLUME;
-            MasterVolume = MASTER_DEFAULT_VOLUME;
         }
     }
 }
