@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f23c7dd83a8a49cb9cb178de4fe5befc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _audioServicePrefab: {fileID: 7300315557682681652, guid: 8163469e776bf0f4aa8bfe7090dd93f6, type: 3}
   _soundRepository: {fileID: 11400000, guid: dc926880fae59fb409cebcaf900dc800, type: 2}
 --- !u!1 &1829024776959784697
 GameObject:

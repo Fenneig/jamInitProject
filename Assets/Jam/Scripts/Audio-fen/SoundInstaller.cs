@@ -6,6 +6,7 @@ namespace Jam.Scripts.Audio_fen
 {
     public class SoundInstaller : MonoInstaller
     {
+        [SerializeField] private AudioService _audioServicePrefab;
         [SerializeField] private SoundRepository _soundRepository;
         
         public override void InstallBindings()
@@ -24,10 +25,8 @@ namespace Jam.Scripts.Audio_fen
         
         private void SoundServiceInstall()
         {
-
-            Container.Bind<SoundService>()
-                .FromNewComponentOnNewGameObject()
-                .WithGameObjectName("SoundService")
+            Container.Bind<AudioService>()
+                .FromComponentInNewPrefab(_audioServicePrefab)
                 .AsSingle()
                 .WithArguments(_soundRepository)
                 .NonLazy();

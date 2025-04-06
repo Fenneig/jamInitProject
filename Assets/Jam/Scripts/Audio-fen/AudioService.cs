@@ -2,12 +2,15 @@
 using System.Linq;
 using Jam.Scripts.Audio_fen.Data;
 using UnityEngine;
+using UnityEngine.Audio;
 using Zenject;
 
 namespace Jam.Scripts.Audio_fen
 {
-    public class SoundService : MonoBehaviour
+    public class AudioService : MonoBehaviour
     {
+        [SerializeField] private AudioMixer _musicMixer;
+        [SerializeField] private AudioMixer _soundMixer;
         [Inject] private SoundRepository _soundRepository;
         [Inject] private PersistentAudioSettings _persistentAudioSettings;
         
@@ -16,6 +19,8 @@ namespace Jam.Scripts.Audio_fen
         private Dictionary<string, SoundElement> _cachedClips = new Dictionary<string, SoundElement>();
         
         private SoundElement _nextMusicClip;
+
+        private const string VOLUME = "Volume";
 
         public void PlaySound(string clipName)
         {
@@ -27,14 +32,6 @@ namespace Jam.Scripts.Audio_fen
             AudioSource source = GetSource();
             
             SetSoundClip(source, clip);
-        }
-        
-        private AudioSource GetSource()
-        {
-            foreach (AudioSource soundSource in _soundSources.Where(soundSource => !soundSource.isPlaying))
-                return soundSource;
-
-            return AddNewSoundSource();
         }
 
         public void PlayMusic(string clipName, bool instant = false)
@@ -53,6 +50,14 @@ namespace Jam.Scripts.Audio_fen
                 _musicSource.loop = false;
                 _nextMusicClip = clip;
             }
+        }
+        
+        private AudioSource GetSource()
+        {
+            foreach (AudioSource soundSource in _soundSources.Where(soundSource => !soundSource.isPlaying))
+                return soundSource;
+
+            return AddNewSoundSource();
         }
         
         private SoundElement FindClip(string clipName, SoundType soundType)
@@ -105,9 +110,37 @@ namespace Jam.Scripts.Audio_fen
             _musicSource.playOnAwake = false;
 
             for (int i = 0; i < 5; i++)
-            {
                 AddNewSoundSource();
-            }
+            
+            _persistentAudioSettings.OnMasterVolumeChanged += UpdateMasterVolume;
+            _persistentAudioSettings.OnMusicVolumeChanged += UpdateMusicVolume;
+            _persistentAudioSettings.OnSoundVolumeChanged += UpdateSoundVolume;
+        }
+
+        private void OnDestroy()
+        {
+            _persistentAudioSettings.OnMasterVolumeChanged -= UpdateMasterVolume;
+            _persistentAudioSettings.OnMusicVolumeChanged -= UpdateMusicVolume;
+            _persistentAudioSettings.OnSoundVolumeChanged -= UpdateSoundVolume;
+        }
+
+        private void UpdateMasterVolume()
+        {
+            UpdateSoundVolume(_persistentAudioSettings.SoundVolume);
+            UpdateMusicVolume(_persistentAudioSettings.MusicVolume);
+        }
+
+        private void UpdateSoundVolume(float newVolume) => 
+            _soundMixer.SetFloat(VOLUME, ToDecibel(newVolume));
+
+        private void UpdateMusicVolume(float newVolume) => 
+            _musicMixer.SetFloat(VOLUME, ToDecibel(newVolume));
+        
+        private float ToDecibel(float newVolume)
+        {
+            float volume = newVolume * _persistentAudioSettings.MasterVolume;
+            volume = Mathf.Approximately(volume, 0f) ? -80f : Mathf.Log10(volume) * 20f;
+            return volume;
         }
 
         private void Update()

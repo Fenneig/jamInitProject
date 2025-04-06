@@ -60,7 +60,7 @@ namespace Jam.Scripts.Audio_fen.Data
             foreach (AudioClip soundClip in holder.Sounds)
             {
                 List<SoundElement> clip = new List<SoundElement>{ new SoundElement(soundClip) };
-                SoundData clipData = new SoundData(soundClip.name, soundType, clip);
+                SoundData clipData = new SoundData(soundClip.name, clip);
                 
                 if (soundType == SoundType.Effect)
                     Sounds.Add(clipData);
@@ -68,7 +68,5 @@ namespace Jam.Scripts.Audio_fen.Data
                     Music.Add(clipData);
             }
         }
-
-
     }
 }
