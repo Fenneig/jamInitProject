@@ -6,7 +6,7 @@ namespace Jam.Scripts.Audio_fen.Data
     [Serializable]
     public class SoundElement
     {
-        [SerializeField] private float _volume = 100f;
+        [SerializeField, Range(0,1f)] private float _volume = 1f;
         [SerializeField] private AudioClip _clip;
 
         public SoundElement(AudioClip clip)

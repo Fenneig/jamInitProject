@@ -1,18 +1,25 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Audio;
+using Zenject;
 
 namespace Jam.Scripts.Audio_fen.Data
 {
     public class PersistentAudioSettings
     {
+        private AudioMixerGroup _musicMixer;
+        private AudioMixerGroup _soundMixer;
         public float MasterVolume { get; private set; }
         public float SoundVolume { get; private set; }
         public float MusicVolume { get; private set; }
-        
+        public AudioMixerGroup SoundMixer => _soundMixer;
+        public AudioMixerGroup MusicMixer => _musicMixer;
+
         private const string MASTER_VOLUME_KEY = "MasterVolume";
         private const string SOUND_VOLUME_KEY = "SoundVolume";
         private const string MUSIC_VOLUME_KEY = "MusicVolume";
-        
+        private const string VOLUME = "Volume";
+
         private const float MASTER_SOUND_VOLUME = .5f;
         private const float DEFAULT_SOUND_VOLUME = 1f;
         private const float DEFAULT_MUSIC_VOLUME = 1f;
@@ -20,8 +27,10 @@ namespace Jam.Scripts.Audio_fen.Data
         public event Action OnMasterVolumeChanged;
         public event Action<float> OnSoundVolumeChanged, OnMusicVolumeChanged; 
         
-        public PersistentAudioSettings()
+        public PersistentAudioSettings(AudioMixerGroup musicMixer, AudioMixerGroup soundMixer)
         {
+            _musicMixer = musicMixer;
+            _soundMixer = soundMixer;
             MasterVolume = PlayerPrefs.HasKey(MASTER_VOLUME_KEY) ? PlayerPrefs.GetFloat(MASTER_VOLUME_KEY) : MASTER_SOUND_VOLUME;
             SoundVolume = PlayerPrefs.HasKey(SOUND_VOLUME_KEY) ? PlayerPrefs.GetFloat(SOUND_VOLUME_KEY) : DEFAULT_SOUND_VOLUME;
             MusicVolume = PlayerPrefs.HasKey(MUSIC_VOLUME_KEY) ? PlayerPrefs.GetFloat(MUSIC_VOLUME_KEY) : DEFAULT_MUSIC_VOLUME;
@@ -37,19 +46,38 @@ namespace Jam.Scripts.Audio_fen.Data
         public void SetMasterVolume(float volume)
         {
             MasterVolume = volume;
-            OnMasterVolumeChanged?.Invoke();
+            UpdateMasterVolume();
         }
         
         public void SetSoundVolume(float volume)
         {
             SoundVolume = volume;
-            OnSoundVolumeChanged?.Invoke(SoundVolume);
+            UpdateSoundVolume(SoundVolume);
         }
 
         public void SetMusicVolume(float volume)
         {
             MusicVolume = volume;
-            OnMusicVolumeChanged?.Invoke(MusicVolume);
+            UpdateMusicVolume(MusicVolume);
+        }
+        
+        private void UpdateMasterVolume()
+        {
+            UpdateSoundVolume(SoundVolume);
+            UpdateMusicVolume(MusicVolume);
+        }
+
+        private void UpdateSoundVolume(float newVolume) => 
+            _soundMixer.audioMixer.SetFloat(VOLUME, ToDecibel(newVolume));
+
+        private void UpdateMusicVolume(float newVolume) => 
+            _musicMixer.audioMixer.SetFloat(VOLUME, ToDecibel(newVolume));
+        
+        private float ToDecibel(float newVolume)
+        {
+            float volume = newVolume * MasterVolume;
+            volume = Mathf.Approximately(volume, 0f) ? -80f : Mathf.Log10(volume) * 20f;
+            return volume;
         }
     }
 }

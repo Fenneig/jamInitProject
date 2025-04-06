@@ -10,7 +10,7 @@ namespace Jam.Scripts.Audio_fen
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Q))
-                _audioService.PlaySound("capsuleBought");
+                _audioService.PlaySound("MiniGame");
         }
     }
 }
