@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jam.Scripts.Audio_fen.Data
+namespace Jam.Scripts.Audio.Data
 {
     [Serializable]
     public class SoundData

@@ -1,13 +1,12 @@
-﻿using Jam.Scripts.Audio_fen.Data;
+﻿using Jam.Scripts.Audio.Data;
 using UnityEngine;
 using UnityEngine.Audio;
 using Zenject;
 
-namespace Jam.Scripts.Audio_fen
+namespace Jam.Scripts.Audio
 {
     public class SoundInstaller : MonoInstaller
     {
-        [SerializeField] private AudioService _audioServicePrefab;
         [SerializeField] private AudioMixerGroup _musicMixer;
         [SerializeField] private AudioMixerGroup _soundMixer;
         [SerializeField] private SoundRepository _soundRepository;
@@ -30,7 +29,7 @@ namespace Jam.Scripts.Audio_fen
         private void SoundServiceInstall()
         {
             Container.Bind<AudioService>()
-                .FromComponentInNewPrefab(_audioServicePrefab)
+                .FromNewComponentOnNewGameObject()
                 .AsSingle()
                 .WithArguments(_soundRepository)
                 .NonLazy();

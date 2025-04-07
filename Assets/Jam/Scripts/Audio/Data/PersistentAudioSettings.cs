@@ -1,9 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Audio;
-using Zenject;
 
-namespace Jam.Scripts.Audio_fen.Data
+namespace Jam.Scripts.Audio.Data
 {
     public class PersistentAudioSettings
     {
@@ -23,9 +21,6 @@ namespace Jam.Scripts.Audio_fen.Data
         private const float MASTER_SOUND_VOLUME = .5f;
         private const float DEFAULT_SOUND_VOLUME = 1f;
         private const float DEFAULT_MUSIC_VOLUME = 1f;
-
-        public event Action OnMasterVolumeChanged;
-        public event Action<float> OnSoundVolumeChanged, OnMusicVolumeChanged; 
         
         public PersistentAudioSettings(AudioMixerGroup musicMixer, AudioMixerGroup soundMixer)
         {

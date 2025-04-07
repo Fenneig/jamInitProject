@@ -4,7 +4,7 @@ using NaughtyAttributes;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Jam.Scripts.Audio_fen.Data
+namespace Jam.Scripts.Audio.Data
 {
     [CreateAssetMenu(fileName = "SoundRepository", menuName = "Audio/SoundRepository")]
     public class SoundRepository : ScriptableObject

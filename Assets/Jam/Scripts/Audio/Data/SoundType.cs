@@ -1,4 +1,4 @@
-﻿namespace Jam.Scripts.Audio_fen.Data
+﻿namespace Jam.Scripts.Audio.Data
 {
     public enum SoundType
     {
