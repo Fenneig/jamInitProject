@@ -1,6 +1,6 @@
 ﻿using Zenject;
 
-namespace Jam.Scripts.Utils
+namespace Jam.Scripts.Utils.Coroutine
 {
     public class CoroutineHelperInstaller : MonoInstaller
     {

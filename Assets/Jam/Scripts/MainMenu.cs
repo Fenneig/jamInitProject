@@ -1,5 +1,5 @@
 ﻿using Jam.Scripts.SceneManagement;
-using Jam.Scripts.Utils;
+using Jam.Scripts.Utils.Coroutine;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;

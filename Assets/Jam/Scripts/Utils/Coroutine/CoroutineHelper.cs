@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Jam.Scripts.Utils
+namespace Jam.Scripts.Utils.Coroutine
 {
     public class CoroutineHelper : MonoBehaviour
     {
